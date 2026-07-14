@@ -780,7 +780,7 @@ document.head.appendChild(toastStyles);
 
 // ==================== UTILITY FUNCTIONS ====================
 function openWhatsApp() {
-  const phoneNumber = '+971503567945';
+  const phoneNumber = '+919092677377';
   const message = encodeURIComponent('Hello! I am interested in your properties and services.');
   window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
 }
@@ -917,21 +917,46 @@ window.addEventListener('scroll', () => {
 // ==================== HAMBURGER & MOBILE MENU ====================
 const hamburger = document.getElementById('hamburger');
 const nav = document.querySelector('.nav');
+const overlay = document.getElementById('mobileNavOverlay');
+const body = document.body;
 
-if (hamburger && nav) {
+if (hamburger && nav && overlay) {
+  function closeMobileMenu() {
+    nav.classList.remove('show');
+    overlay.classList.remove('show');
+    hamburger.classList.remove('active');
+    body.classList.remove('menu-open');
+  }
+
+  function openMobileMenu() {
+    nav.classList.add('show');
+    overlay.classList.add('show');
+    hamburger.classList.add('active');
+    body.classList.add('menu-open');
+  }
+
   hamburger.addEventListener('click', (e) => {
     e.stopPropagation();
-    nav.classList.toggle('show');
-    hamburger.classList.toggle('active');
+    if (nav.classList.contains('show')) {
+      closeMobileMenu();
+    } else {
+      openMobileMenu();
+    }
   });
 
-  document.querySelectorAll('.nav-link').forEach(link => {
+  overlay.addEventListener('click', closeMobileMenu);
+
+  document.querySelectorAll('.nav-link, .dropdown-item').forEach(link => {
     link.addEventListener('click', () => {
-      nav.classList.remove('show');
-      hamburger.classList.remove('active');
+      closeMobileMenu();
     });
   });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMobileMenu();
+  });
 }
+
 
 // ==================== DROPDOWN MENU ====================
 let dropdownOpen = false;

@@ -2340,13 +2340,13 @@ section.visible,
     margin-left: auto;
     flex-direction: column;
     width: 100%;
-    background: rgba(255,255,255,0.95);
+    background: rgba(23,34,56,0.98);
     position: absolute;
     top: 100%;
     left: 0;
     padding: 1rem 0;
     border-radius: 0 0 10px 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
   }
 
   .nav.show {
@@ -2354,9 +2354,9 @@ section.visible,
   }
 
   .nav-link {
-    color: #333 !important;
-    padding: 0.5rem 1rem;
-    border-bottom: 1px solid #eee;
+    color: #f8f9fa !important;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
   }
 
   .nav-link:last-child {
