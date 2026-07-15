@@ -9,12 +9,20 @@
     padding: 0 15px;
     gap: 10px;
     position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    background: rgba(7, 13, 25, 0.82);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
   }
 
   .logo-section {
     flex: 1;
     gap: 10px;
     min-width: 0;
+    order: 1;
   }
 
   .logo-img {
@@ -31,8 +39,12 @@
   }
 
   .nav-actions {
-    margin-left: auto;
+    display: flex;
+    align-items: center;
     gap: 8px;
+    order: 1;
+    z-index: 1401;
+    margin-left: auto;
   }
 
   .nav-actions .btn-call-enquiry {
@@ -41,52 +53,105 @@
 
   .hamburger {
     display: flex;
-    order: -1;
+    order: 1;
     margin-right: 8px;
-    padding: 6px;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.10);
+    padding: 10px;
+    min-width: 48px;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.16);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+    position: relative;
+    z-index: 1401;
   }
 
   .hamburger span {
+    width: 24px;
+    height: 3px;
     background: #fff;
+    border-radius: 999px;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+
+  .hamburger.active span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.active span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
   }
 
   .nav {
     position: fixed;
     top: 0;
     left: 0;
-    bottom: 0;
-    width: min(82vw, 300px);
+    right: auto;
+    height: 100vh;
+    width: 100%;
+    max-width: 340px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 0;
-    padding: 16px 12px;
-    background: linear-gradient(180deg, #111827 0%, #0f172a 100%);
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+    padding: 24px 16px 24px;
+    background: linear-gradient(180deg, rgba(17,24,39,0.98) 0%, rgba(15,23,42,0.98) 100%);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
     transform: translateX(-100%);
     opacity: 0;
     visibility: hidden;
     transition: transform 0.25s ease, opacity 0.25s ease, visibility 0.25s ease;
-    z-index: 1200;
+    z-index: 1300;
     overflow-y: auto;
-    border-top-right-radius: 16px;
-    border-bottom-right-radius: 16px;
+    border-top-right-radius: 18px;
+    border-bottom-right-radius: 18px;
+    display: flex !important;
   }
 
   .nav.show {
-    display: flex;
     transform: translateX(0);
     opacity: 1;
     visibility: visible;
   }
 
+  .nav-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    display: inline-flex;
+    background: transparent;
+    border: none;
+    color: #f8fafc;
+    font-size: 32px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .nav-link {
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-close:hover {
+    color: var(--primary-color);
+  }
+
   .nav-link {
     width: 100%;
-    color: #fff;
-    padding: 12px 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    color: #f8fafc;
+    padding: 16px 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
   }
 
   .nav-link:last-child {
@@ -112,22 +177,32 @@
     position: static;
     width: 100%;
     margin-top: 6px;
-    display: none;
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.10);
+    overflow: hidden;
   }
 
   .nav-dropdown:hover .dropdown-menu,
   .nav-dropdown.active .dropdown-menu {
-    display: block;
     opacity: 1;
     visibility: visible;
-    transform: none;
+    transform: translateY(0);
+  }
+
+  .nav-dropdown.active > .dropdown-toggle {
+    color: var(--primary-color);
   }
 
   .dropdown-item {
     color: #f8fafc;
-    padding: 10px 12px;
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-size: 0.95rem;
   }
 
   .nav-link,

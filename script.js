@@ -901,7 +901,12 @@ function openBlogModal(id) {
 
 function scrollToSection(selector) {
   const section = document.querySelector(selector);
-  if (section) section.scrollIntoView({ behavior: 'smooth' });
+  if (!section) return;
+  const header = document.querySelector('.header');
+  const headerOffset = header ? header.offsetHeight + 12 : 100;
+  const elementPosition = section.getBoundingClientRect().top + window.pageYOffset;
+  const offsetPosition = elementPosition - headerOffset;
+  window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
 }
 
 // ==================== NAVBAR SCROLL EFFECT ====================
@@ -917,6 +922,7 @@ window.addEventListener('scroll', () => {
 // ==================== HAMBURGER & MOBILE MENU ====================
 const hamburger = document.getElementById('hamburger');
 const nav = document.querySelector('.nav');
+const mobileNavClose = document.getElementById('mobileNavClose');
 const overlay = document.getElementById('mobileNavOverlay');
 const body = document.body;
 
@@ -926,6 +932,7 @@ if (hamburger && nav && overlay) {
     overlay.classList.remove('show');
     hamburger.classList.remove('active');
     body.classList.remove('menu-open');
+    document.querySelectorAll('.nav-dropdown').forEach(drop => drop.classList.remove('active'));
   }
 
   function openMobileMenu() {
@@ -946,8 +953,22 @@ if (hamburger && nav && overlay) {
 
   overlay.addEventListener('click', closeMobileMenu);
 
+  if (mobileNavClose) {
+    mobileNavClose.addEventListener('click', closeMobileMenu);
+  }
+
   document.querySelectorAll('.nav-link, .dropdown-item').forEach(link => {
-    link.addEventListener('click', () => {
+    if (link.classList.contains('dropdown-toggle')) return;
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (href && href.startsWith('#') && href !== '#') {
+        e.preventDefault();
+        closeMobileMenu();
+        setTimeout(() => {
+          scrollToSection(href);
+        }, 80);
+        return;
+      }
       closeMobileMenu();
     });
   });
@@ -959,28 +980,25 @@ if (hamburger && nav && overlay) {
 
 
 // ==================== DROPDOWN MENU ====================
-let dropdownOpen = false;
 document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
   toggle.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
+    const parent = toggle.closest('.nav-dropdown');
     const menu = toggle.nextElementSibling;
-    if (menu) {
-      dropdownOpen = !dropdownOpen;
-      menu.style.opacity = dropdownOpen ? '1' : '0';
-      menu.style.visibility = dropdownOpen ? 'visible' : 'hidden';
-      menu.style.transform = dropdownOpen ? 'translateY(0)' : 'translateY(-10px)';
-    }
+    if (!parent || !menu) return;
+
+    const isOpen = parent.classList.toggle('active');
+    document.querySelectorAll('.nav-dropdown').forEach(drop => {
+      if (drop !== parent) drop.classList.remove('active');
+    });
+
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   });
 });
 
 document.addEventListener('click', () => {
-  dropdownOpen = false;
-  document.querySelectorAll('.dropdown-menu').forEach(menu => {
-    menu.style.opacity = '0';
-    menu.style.visibility = 'hidden';
-    menu.style.transform = 'translateY(-10px)';
-  });
+  document.querySelectorAll('.nav-dropdown').forEach(drop => drop.classList.remove('active'));
 });
 
 // ==================== SMOOTH SCROLL FOR ANCHORS ====================

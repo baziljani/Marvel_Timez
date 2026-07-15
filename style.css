@@ -20,6 +20,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 100px;
 }
 
 body {
@@ -281,6 +282,10 @@ section.visible,
   border: none;
   cursor: pointer;
   gap: 5px;
+}
+
+.nav-close {
+  display: none;
 }
 
 .hamburger span {
